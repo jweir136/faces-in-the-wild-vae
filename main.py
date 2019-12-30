@@ -11,7 +11,7 @@ from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
 
-TRAINING_DIR = "../../datasets/labeled-faces-in-the-wild/lfw-deepfunneled/lfw-deepfunneled"
+TRAINING_DIR = "/storage/faces/lfw-deepfunneled/lfw-deepfunneled"
 
 ###################### CREATE THE DATASET AND DATALOADER ###########################################
 
@@ -120,4 +120,4 @@ for epoch in range(25):
   print("[{}] Loss={}".format(epoch+1, loss.detach().cpu().numpy()))
   print("\n")
 
-  break
+torch.save(vae.state_dict(), "/artifacts/faces-vae-weights.pth")
