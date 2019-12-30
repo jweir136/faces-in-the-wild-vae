@@ -22,7 +22,7 @@ mean = np.load("mean.npy")
 std = np.load("std.npy")
 
 trans = transforms.Compose([
-  transforms.Resize(150),
+  transforms.Resize(100),
   transforms.ToTensor(),
   transforms.Normalize(mean=mean, std=std)
 ])
@@ -34,11 +34,11 @@ trainloader = data.DataLoader(trainfolder, shuffle=True, batch_size=16, num_work
 
 class Flatten(nn.Module):
   def forward(self, x):
-    return x.view(x.size()[0], 134*134*64)  
+    return x.view(x.size()[0], 84*84*64)  
 
 class UnFlatten(nn.Module):
   def forward(self, x):
-    return x.view(x.size()[0], 64, 134, 134)
+    return x.view(x.size()[0], 64, 84, 84)
 
 class FaceVAE(nn.Module):
   def __init__(self):
@@ -54,7 +54,7 @@ class FaceVAE(nn.Module):
       nn.Conv2d(32, 64, kernel_size=5),
       nn.ReLU(True),
       Flatten(),
-      nn.Linear(64*134*134, 400),
+      nn.Linear(64*84*84, 400),
       nn.ReLU(True)
     )
     self.mu_layer = nn.Linear(400, 20)
@@ -62,7 +62,7 @@ class FaceVAE(nn.Module):
     self.decoder = nn.Sequential(
       nn.Linear(20, 400),
       nn.ReLU(True),
-      nn.Linear(400, 64*134*134),
+      nn.Linear(400, 64*84*84),
       nn.ReLU(True),
       UnFlatten(),
       nn.ConvTranspose2d(64, 32, kernel_size=5),
