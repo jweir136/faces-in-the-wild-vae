@@ -7,7 +7,6 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import os
 import sys
-from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
 
