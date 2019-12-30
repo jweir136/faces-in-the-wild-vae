@@ -126,4 +126,4 @@ for epoch in range(25):
   print("Elapsed Time={}".format(end_time - start_time))
   print("\n")
 
-torch.save(vae.state_dict(), "/artifacts/faces-vae-weights.pth")
+  torch.save(vae.state_dict(), "/artifacts/faces-vae-epoch-{}-weights.pth".format(epoch+1))
