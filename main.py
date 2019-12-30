@@ -6,6 +6,7 @@ import torch.utils.data as data
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import os
+from tqdm import tqdm
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -107,7 +108,7 @@ sgd = optim.Adam(vae.parameters(), lr=1e-3)
 for epoch in range(25):
   start_time = time.time()
 
-  for x, _ in trainloader:
+  for x, _ in tqdm(trainloader):
     x = x.cuda().float()
     
     sgd.zero_grad()
