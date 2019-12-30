@@ -45,13 +45,13 @@ class FaceVAE(nn.Module):
     super().__init__()
 
     self.encoder = nn.Sequential(
-      nn.Conv2d(3, 8, kernel_size=3),
+      nn.Conv2d(3, 8, kernel_size=5),
       nn.ReLU(True),
-      nn.Conv2d(8, 16, kernel_size=3),
+      nn.Conv2d(8, 16, kernel_size=5),
       nn.ReLU(True),
-      nn.Conv2d(16, 32, kernel_size=3),
+      nn.Conv2d(16, 32, kernel_size=5),
       nn.ReLU(True),
-      nn.Conv2d(32, 64, kernel_size=3),
+      nn.Conv2d(32, 64, kernel_size=5),
       nn.ReLU(True),
       Flatten(),
       nn.Linear(64*134*134, 400),
@@ -65,13 +65,13 @@ class FaceVAE(nn.Module):
       nn.Linear(400, 64*134*134),
       nn.ReLU(True),
       UnFlatten(),
-      nn.ConvTranspose2d(64, 32, kernel_size=3),
+      nn.ConvTranspose2d(64, 32, kernel_size=5),
       nn.ReLU(True),
-      nn.ConvTranspose2d(32, 16, kernel_size=3),
+      nn.ConvTranspose2d(32, 16, kernel_size=5),
       nn.ReLU(True),
-      nn.ConvTranspose2d(16, 8, kernel_size=3),
+      nn.ConvTranspose2d(16, 8, kernel_size=5),
       nn.ReLU(True),
-      nn.ConvTranspose2d(8, 3, kernel_size=3)
+      nn.ConvTranspose2d(8, 3, kernel_size=5)
     )
 
   def reparam_(self, mu, logvar):
