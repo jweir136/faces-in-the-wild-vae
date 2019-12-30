@@ -27,7 +27,7 @@ trans = transforms.Compose([
 ])
 
 trainfolder = datasets.ImageFolder(root=TRAINING_DIR, transform=trans)
-trainloader = data.DataLoader(trainfolder, shuffle=True, batch_size=128, num_workers=12)
+trainloader = data.DataLoader(trainfolder, shuffle=True, batch_size=64, num_workers=12)
 
 ###################### CREATE THE VAE MODEL ##########################################################
 
