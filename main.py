@@ -9,6 +9,7 @@ import os
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 TRAINING_DIR = "/storage/faces/lfw-deepfunneled/lfw-deepfunneled"
 
@@ -27,7 +28,7 @@ trans = transforms.Compose([
 ])
 
 trainfolder = datasets.ImageFolder(root=TRAINING_DIR, transform=trans)
-trainloader = data.DataLoader(trainfolder, shuffle=True, batch_size=64, num_workers=12)
+trainloader = data.DataLoader(trainfolder, shuffle=True, batch_size=16, num_workers=12)
 
 ###################### CREATE THE VAE MODEL ##########################################################
 
@@ -104,6 +105,8 @@ sgd = optim.Adam(vae.parameters(), lr=1e-3)
 ########################### TRAIN THE MODEL ############################################
 
 for epoch in range(25):
+  start_time = time.time()
+
   for x, _ in trainloader:
     x = x.cuda().float()
     
@@ -115,8 +118,11 @@ for epoch in range(25):
     loss.backward()
     sgd.step()
 
+  end_time = time.time()
+
   print("\n")
   print("[{}] Loss={}".format(epoch+1, loss.detach().cpu().numpy()))
+  print("Elapsed Time={}".format(end_time - start_time))
   print("\n")
 
 torch.save(vae.state_dict(), "/artifacts/faces-vae-weights.pth")
