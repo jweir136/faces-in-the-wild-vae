@@ -1,3 +1,7 @@
+import os
+
+os.system("pip install tqdm")
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as fn
@@ -5,7 +9,6 @@ import torch.optim as optim
 import torch.utils.data as data
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-import os
 from tqdm import tqdm
 import sys
 import numpy as np
@@ -126,4 +129,7 @@ for epoch in range(25):
   print("Elapsed Time={}".format(end_time - start_time))
   print("\n")
 
-  torch.save(vae.state_dict(), "/artifacts/faces-vae-epoch-{}-weights.pth".format(epoch+1))
+  if epoch+1 % 5 == 0:
+    torch.save(vae.state_dict(), "/artifacts/faces-vae-epoch-{}-weights.pth".format(epoch+1))
+
+torch.save(vae.state_dict(), "/artifacts/faces-vae-weights.pth")
