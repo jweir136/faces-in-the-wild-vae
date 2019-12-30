@@ -28,17 +28,17 @@ trans = transforms.Compose([
 ])
 
 trainfolder = datasets.ImageFolder(root=TRAINING_DIR, transform=trans)
-trainloader = data.DataLoader(trainfolder, shuffle=True, batch_size=64, num_workers=12)
+trainloader = data.DataLoader(trainfolder, shuffle=True, batch_size=128, num_workers=12)
 
 ###################### CREATE THE VAE MODEL ##########################################################
 
 class Flatten(nn.Module):
   def forward(self, x):
-    return x.view(x.size()[0], 142*142*64)  
+    return x.view(x.size()[0], 134*134*64)  
 
 class UnFlatten(nn.Module):
   def forward(self, x):
-    return x.view(x.size()[0], 64, 142, 142)
+    return x.view(x.size()[0], 64, 134, 134)
 
 class FaceVAE(nn.Module):
   def __init__(self):
@@ -54,7 +54,7 @@ class FaceVAE(nn.Module):
       nn.Conv2d(32, 64, kernel_size=3),
       nn.ReLU(True),
       Flatten(),
-      nn.Linear(64*142*142, 400),
+      nn.Linear(64*134*134, 400),
       nn.ReLU(True)
     )
     self.mu_layer = nn.Linear(400, 20)
@@ -62,7 +62,7 @@ class FaceVAE(nn.Module):
     self.decoder = nn.Sequential(
       nn.Linear(20, 400),
       nn.ReLU(True),
-      nn.Linear(400, 64*142*142),
+      nn.Linear(400, 64*134*134),
       nn.ReLU(True),
       UnFlatten(),
       nn.ConvTranspose2d(64, 32, kernel_size=3),
